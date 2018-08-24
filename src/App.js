@@ -18,7 +18,7 @@ const App = () => {
       osat: [
         {
           nimi: 'Reactin perusteet',
-          tehtavia: 10,
+          tehtavia: 13,
           id: 1
         },
         {
@@ -46,7 +46,26 @@ const App = () => {
           nimi: 'Middlewaret',
           tehtavia: 7,
           id: 2
-        }
+        },
+        
+      ]
+    },
+
+    {
+      nimi: 'Node.js',
+      id: 2,
+      osat: [
+        {
+          nimi: 'Routing',
+          tehtavia: 3,
+          id: 1
+        },
+        {
+          nimi: 'Middlewaret',
+          tehtavia: 7,
+          id: 2
+        },
+        
       ]
     }
   ]
