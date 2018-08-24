@@ -54,7 +54,7 @@ const App = () => {
 
   return (
     <div>
-      <h1> Opetusohjelma </h1>
+      <h1> Opetusohjelma (Branch-testi) </h1>
       {kurssit.map(yksiKurssi=><Kurssi key={yksiKurssi.id} kurssi={yksiKurssi}/>)}
      
     </div>
