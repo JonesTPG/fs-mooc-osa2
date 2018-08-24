@@ -1,5 +1,6 @@
 import React from 'react';
-import Hakukenttä from './components/Hakukenttä'
+import Itemsearch from './components/Itemsearch'
+import Itemdata from './components/Itemdata'
 
 class App extends React.Component {
   constructor(props) {
@@ -50,34 +51,27 @@ class App extends React.Component {
   }
 
   handeFilterChange = (event) => {
-
-
     this.setState({ filter: event.target.value })
   }
 
   showNumbers = () => {
     if ( this.state.filter === '' ) {
-    return this.state.persons.map(rivi =>  <p key={rivi.name}> {rivi.name} {rivi.number}<br/></p>)
+    return this.state.persons.map(rivi =>  <Itemdata key={rivi.name} name={rivi.name} number={rivi.number}/>)
     }
-
+ 
     else {
       const nimiLista = this.state.persons.filter(rivi => rivi.name.toLowerCase().startsWith(this.state.filter.toLowerCase()))
-      console.log(nimiLista)
-      return nimiLista.map(rivi =>  <p key={rivi.name}> {rivi.name} {rivi.number}<br/></p>) 
+      return nimiLista.map(rivi =>  <Itemdata key={rivi.name} name={rivi.name} number={rivi.number}/>) 
     }
   }
-
 
   render() {
     return (
       <div>
-        <h2>Puhelinluettelo</h2>
-
-        rajaa näytettäviä: <input value={this.state.filter}
-                                  onChange={this.handeFilterChange} />
-        
+        <Itemsearch/>
+        <input value={this.state.filter}
+               onChange={this.handeFilterChange} />
         <h2>Lisää uusi</h2>
-
         <form onSubmit={this.addItem}>
           <div>
             nimi: <input value={this.state.newName}
@@ -96,5 +90,4 @@ class App extends React.Component {
     )
   }
 }
-
 export default App
