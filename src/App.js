@@ -33,9 +33,6 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <div>
-          debug: {this.state.newName}
-        </div>
         <h2>Puhelinluettelo</h2>
         <form onSubmit={this.addNumber}>
           <div>
