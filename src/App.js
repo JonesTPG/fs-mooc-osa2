@@ -14,6 +14,13 @@ class App extends React.Component {
   addNumber = (event) => {
     event.preventDefault()
     
+    let nimiLista = this.state.persons.map(rivi => rivi.name)
+    if ( nimiLista.includes(this.state.newName) ) {
+      alert("Nimi on jo listassa!")
+      this.setState({newName: ''})
+      return
+    }
+
     const nameObject = {
       name: this.state.newName,
     }
@@ -26,7 +33,6 @@ class App extends React.Component {
   }
 
   handeNameChange = (event) => {
-    console.log(event.target.value)
     this.setState({ newName: event.target.value })
   }
 
