@@ -45,10 +45,14 @@ class App extends React.Component {
     
     else {
       
-      return countryList.map(rivi =>  <p key={rivi.numericCode}>{rivi.name}</p>) 
+      return countryList.map(rivi =>  <p onClick={() => this.handleClick(rivi.name)} key={rivi.numericCode}>{rivi.name}</p>) 
     }
   }
   
+  handleClick = (name) => {
+    console.log('klikattu')
+    this.setState({filter: name})
+  }
 
   render() {
     return (
