@@ -1,97 +1,63 @@
 import React from 'react'
 import axios from 'axios'
-import Itemsearch from './components/Itemsearch'
-import Itemdata from './components/Itemdata'
+import Countrydata from './components/Countrydata'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: [],
-      newName: '',
-      newNumber: '',
-      filter: ''
+      countries: [],
+      filter: '',
+      results: 0
     }
   }
 
   componentDidMount() {
-    console.log('did mount')
     axios
-      .get('http://localhost:3001/persons')
+      .get('https://restcountries.eu/rest/v2/all')
       .then(response => {
-        console.log('saatiin tiedot')
-        this.setState({ persons: response.data })
+        this.setState({ countries: response.data })
       })
   }
 
-  addItem = (event) => {
-    event.preventDefault()
-    
-    let nimiLista = this.state.persons.map(rivi => rivi.name)
-    if ( nimiLista.includes(this.state.newName) ) {
-      alert("Nimi on jo listassa!")
-      this.setState({newName: '',
-                     newNumber: ''})
-      return
-    }
-
-    const nameObject = {
-      name: this.state.newName,
-      number: this.state.newNumber
-    }
-    const persons = this.state.persons.concat(nameObject)
-  
-    this.setState({
-      persons: persons,
-      newName: '',
-      newNumber: ''
-    })
-  }
-
-  handeNameChange = (event) => {
-    this.setState({ newName: event.target.value })
-  }
-
-  handeNumberChange = (event) => {
-    this.setState({ newNumber: event.target.value })
-  }
-
-  handeFilterChange = (event) => {
+  handleFilterChange = (event) => {
     this.setState({ filter: event.target.value })
   }
 
-  showNumbers = () => {
+  showCountries = () => {
+    const countryList = this.state.countries.filter(rivi => rivi.name.toLowerCase().startsWith(this.state.filter.toLowerCase()))
     if ( this.state.filter === '' ) {
-    return this.state.persons.map(rivi =>  <Itemdata key={rivi.name} name={rivi.name} number={rivi.number}/>)
+      return
     }
- 
+
+    else if  ( countryList.length > 10 ) {
+        return <p>Too many matches, specify another filter</p>
+         
+    }
+
+    else if ( countryList.length === 1 ) {
+      return <Countrydata name={countryList[0].name}
+                          capital={countryList[0].capital}
+                          population={countryList[0].population}
+                          flag={countryList[0].flag}
+              />
+    }
+    
     else {
-      const nimiLista = this.state.persons.filter(rivi => rivi.name.toLowerCase().startsWith(this.state.filter.toLowerCase()))
-      return nimiLista.map(rivi =>  <Itemdata key={rivi.name} name={rivi.name} number={rivi.number}/>) 
+      
+      return countryList.map(rivi =>  <p key={rivi.numericCode}>{rivi.name}</p>) 
     }
   }
+  
 
   render() {
     return (
       <div>
-        <Itemsearch/>
+        find countries: 
         <input value={this.state.filter}
-               onChange={this.handeFilterChange} />
-        <h2>Lisää uusi</h2>
-        <form onSubmit={this.addItem}>
-          <div>
-            nimi: <input value={this.state.newName}
-                          onChange={this.handeNameChange} />
-            <br/>
-            numero: <input value={this.state.newNumber}
-                          onChange={this.handeNumberChange} />
-          </div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
-        <h2>Numerot</h2>
-        <div>{this.showNumbers()}</div>
+               onChange={this.handleFilterChange} />
+
+        <div>{this.showCountries()}</div>
       </div>
     )
   }
